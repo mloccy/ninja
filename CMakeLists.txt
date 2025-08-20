@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
 
+if (WIN32)
+    set(HUNTER_ROOT "C:\\.hunter")
+endif()
+include(cmake/HunterGate.cmake)
+HunterGate(
+    URL "https://github.com/mloccy/hunter/archive/refs/tags/v0.25.52.tar.gz"
+    SHA1 "476f28c472514a42dbb968391e176771801a46fb")
+
 include(CheckSymbolExists)
 include(CheckIPOSupported)
 
@@ -7,6 +15,7 @@ option(NINJA_BUILD_BINARY "Build ninja binary" ON)
 option(NINJA_FORCE_PSELECT "Use pselect() even on platforms that provide ppoll()" OFF)
 
 project(ninja CXX)
+hunter_add_package(re2c)
 
 # --- optional link-time optimization
 check_ipo_supported(RESULT lto_supported OUTPUT error)
